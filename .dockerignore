@@ -1,0 +1,6 @@
+.idea
+fonts/**/*
+images/*
+.git
+!fonts/fira/distr/otf/*
+!fonts/hack/build/ttf/*

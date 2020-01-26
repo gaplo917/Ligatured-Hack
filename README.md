@@ -1,3 +1,19 @@
+# Ligatured Hack
+This is originally forked from https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123, 
+which is not able to build latest Hack 3.x font, issue: https://github.com/ToxicFrog/Ligaturizer/issues/73
+
+I spent some time to test & debug the issue, and created a quick fix https://github.com/gaplo917/Ligaturizer/commit/cc5ae602f8b861a640220997092abf06dcea6ea5
+
+Tested the quick fix for building latest hack font is work and also all fonts can be built. However, it is too difficult to check the ligatures one-by-one by myself.
+
+**Important: This repo only focus on building Ligatured Hack font and may not compatible to other fonts!**
+
+|TODO|Status|
+|:-----:|:-----:|
+|Travis CI to build release| WIP |
+|Build Automatically upon FIRA or Hack update | WIP|
+
+---
 # Ligaturizer #
 
 ![](images/banner.png)

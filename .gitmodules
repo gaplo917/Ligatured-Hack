@@ -2,11 +2,6 @@
 	path = fonts/fira
 	url = https://github.com/tonsky/FiraCode.git
 	shallow = true
-[submodule "codeface"]
-	path = fonts/codeface
-	url = https://github.com/chrissimpkins/codeface.git
-	shallow = true
-[submodule "plex"]
-	path = fonts/plex
-	url = https://github.com/IBM/plex.git
-	shallow = true
+[submodule "fonts/hack"]
+	path = fonts/hack
+	url = https://github.com/source-foundry/Hack

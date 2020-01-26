@@ -1,89 +1,60 @@
+# Ligatured Hack
 [![Build Status](https://travis-ci.com/gaplo917/Ligatured-Hack.svg?branch=master)](https://travis-ci.com/gaplo917/Ligatured-Hack)
 
-# Ligatured Hack
-This is originally forked from https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123, 
-which is not able to build latest Hack 3.x font, issue: https://github.com/ToxicFrog/Ligaturizer/issues/73
+This project is forked from [Ligaturizer@daa4dc8b](https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123) 
+which is [not able to build latest Hack 3.x font](https://github.com/ToxicFrog/Ligaturizer/issues/73) at that moment
 
-I spent some time to test & debug the issue, and created a quick fix https://github.com/gaplo917/Ligaturizer/commit/cc5ae602f8b861a640220997092abf06dcea6ea5
+I created a [fix](https://github.com/gaplo917/Ligaturizer/commit/cc5ae602f8b861a640220997092abf06dcea6ea5) and submitted 
+a [pull request](https://github.com/ToxicFrog/Ligaturizer/pull/81). This fix is compatible to build all fonts originally listed on Ligaturizer. 
+However, it is too difficult for me to manually check all the output fonts.
 
-Tested the quick fix for building latest hack font is work and also all fonts can be built. However, it is too difficult to check the ligatures one-by-one by myself.
+To make this project more maintainable. I decided to 
+* focus only on Ligatured Hack Font (My Favourite Font) 
+* containerize dependencies (Reproducible, hopefully OS independent)
+* create automatic CI/CD. (Hassle free update)
 
-**Important: This repo only focus on building Ligatured Hack font and may not compatible to other fonts!**
+> Thus, splitting out is unavoidable.
 
-|TODO|Status|
+# Current Status
+|Task|Status|
 |:-----:|:-----:|
-|Travis CI to build release| WIP |
-|Build Automatically upon FIRA or Hack update | WIP|
+|Containerize fontforge and python runtime| ✅ |
+|Travis CI to build release| ✅ |
+|Build Automatically upon FIRA or Hack update hook | WIP |
 
----
-# Ligaturizer #
+# Download Ligatured Hack Fonts
+Go to [release](https://github.com/gaplo917/Ligatured-Hack/releases)
 
-![](images/banner.png)
 
-**Add ligatures to any coding font!**
+# Manual 
+```
+# Clone
+git clone https://github.com/gaplo917/Ligatured-Hack
+cd Ligatured-Hack
 
-This script copies the ligatures (glyphs and rendering information) from [Fira Code](https://github.com/tonsky/FiraCode) into any other TrueType or OpenType font. (Note that the ligatures are scale-corrected, but otherwise copied as is from Fira Code; it doesn't create new ligature graphics based on the font you're modifying.)
+# Update Fira, Hack submodules
+git submodule update --depth 1 --init --recursive
+```
 
-This repo contains a [Fontforge python script](ligaturize.py) that you can use to add the Fira Code ligatures to any font, as well as submodules for some popular coding fonts and [another script](build.py) for ligaturizing all of them at once.
+### Manual Build via docker
+```
+# Build docker image
+docker build . -t ligatured-hack
 
-Pre-ligaturized versions are available under [releases](https://github.com/ToxicFrog/Ligaturizer/releases).
+# Mount the volume & Run
+docker run -v $(pwd)/fonts/output:/usr/src/app/fonts/output ligatured-hack
+```
 
-Here's a couple examples of the fonts generated: SF Mono & Menlo with ligatures (note the `!=` and `->`):
-![](images/sf-mono.png)
-![](images/menlo.png)
+Done! All the fonts will be built to `$(pwd)/fonts/output`
 
-## Requirements ##
-**This Repo**: You'll need the repo and its submodules, so `git clone` with `--recurse-submodules`.
+### Manual Build via MacOS
+```
+# Install fontforge dependencies
+brew install fontforge
 
-**Using the Fonts**: See the [FiraCode README](https://github.com/tonsky/FiraCode) for a list of supported editors.
+# Run Makefile
+make
+```
 
-**Script**: This script requires FontForge python bindings. For Debian/Ubuntu they are available in `python-fontforge` package. For OpenSUSE and NixOS, they are included in the `fontforge` package. For macOS, they are available via brew (`brew install fontforge`).
-
-## Using the Script ##
-### Automatic ###
-
-Use automatic mode to easily convert 1 or more font(s).
-
-1.  Put the font(s) you want into `fonts/`.
-1.  Edit `ligatures.py` to disable any ligatures you don't want, and/or enable any (non-ligature) characters you want from Fira Code in addition to the ligatures.
-1.  Edit `build.py` to add your new font(s) to the `prefixed_fonts` list. It supports globbing, so if (e.g.) you want to ligaturize all the different weights of FooFont you can add `'FooFont*'` to the list.
-1.  Run `make`.
-1.  Retrieve the ligaturized fonts from `fonts/output/`.
-1.  The output fonts will be renamed with the prefix "Liga".
-
-### Manual ###
-
-1.  Move/copy the font you want to ligaturize into `fonts/` (or somewhere else convenient).
-1.  Edit `ligatures.py` to disable any ligatures you don't want.
-1.  Run the script:
-
-    ```
-    $ fontforge -lang py -script ligaturize.py path/to/input/font.ttf
-        --output-dir=path/to/output/dir/ \
-        --output-name='Name of Ligaturized Font'
-    ```
-    e.g.
-
-    ```
-    $ fontforge -lang py -script ligaturize.py fonts/Cousine-Regular.ttf
-        --output-dir='fonts/output/' \
-        --output-name='Ligaturized Cousine'
-    ```
-
-    Which will produce `fonts/output/LigaturizedCousine-Regular.ttf`.
-
-The font weight will be inherited from the original file; the font name will be replaced with whatever you specified in `--output-name`. You can also use `--prefix` instead, in which case the original name will be preserved and whatever you put in `--prefix` will be prepended to it.
-
-`ligatures.py` supports some additional command line options to (e.g.) change which font ligatures are copied from or enable copying of individual character glyphs; run `fontforge -lang=py ligaturize.py --help` to list them.
-
-## Misc. ##
-### Credit ###
+# Credits
 This script was originally written by [IlyaSkriblovsky](https://github.com/IlyaSkriblovsky) for adding ligatures to DejaVuSans Mono ([dv-code-font](https://github.com/IlyaSkriblovsky/dv-code-font)). [Navid Rojiani](https://github.com/rojiani) made a few changes to generalize the script so that it works for any font. [ToxicFrog](https://github.com/ToxicFrog) has made a large number of contributions.
-
-### Contributions ###
-Contributions always welcome! Please submit a Pull Request, or create an Issue if you have an idea for a feature/enhancement (or bug).
-
-### Related Projects ###
-For more awesome programming fonts with ligatures, check out:
-1. [FiraCode](https://github.com/tonsky/FiraCode)
-2. [Hasklig](https://github.com/i-tu/Hasklig)

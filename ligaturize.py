@@ -16,6 +16,7 @@ from os import path
 import sys
 
 from ligatures import ligatures
+from char_dict import char_dict
 
 # Constants
 COPYRIGHT = '''
@@ -161,7 +162,7 @@ class LigatureCreator(object):
                 # We assume here that this is because char is a single letter
                 # (e.g. 'w') rather than a character name, and the font we're
                 # editing doesn't have glyphnames for letters.
-                self.font[ord(char)].glyphname = char
+                self.font[ord(char_dict[char])].glyphname = char
 
             if i < len(input_chars) - 1:
                 self.font.createChar(-1, cr_name(i))

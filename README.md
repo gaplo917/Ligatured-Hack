@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/gaplo917/Ligatured-Hack.svg?branch=master)](https://travis-ci.com/gaplo917/Ligatured-Hack)
+
 # Ligatured Hack
 This is originally forked from https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123, 
 which is not able to build latest Hack 3.x font, issue: https://github.com/ToxicFrog/Ligaturizer/issues/73

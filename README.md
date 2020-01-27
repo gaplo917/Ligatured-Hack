@@ -32,6 +32,9 @@ However,
 # Download Ligatured Hack Fonts
 Go to [release](https://github.com/gaplo917/Ligatured-Hack/releases)
 
+For intelliJ with **window 10** users, you have to right click the fonts and choose 'install fonts for all users' in order to be listed in intelliJ. 
+
+For **Mac** users who want to upgrade 'Hack Ligatured' version, you are recommended to completely remove 'Hack Ligatured' in FontBook and install it again. 
 
 # Manual 
 ```

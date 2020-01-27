@@ -15,13 +15,13 @@ script: make
 after_success:
 - sh .travis/commit.sh
 before_deploy:
-- zip -jr Liga-Hack-${TRAVIS_TAG}.zip ./fonts/output/*.ttf
+- zip -jr HackLigatured-${TRAVIS_TAG}.zip ./fonts/output/*.ttf
 deploy:
   provider: releases
   api_key:
     secure: qfdgOmBKgDrBt/8C0Vt622NG2Jd5XlpzoNxxFQNoigi7tMsfBxviuM48FeGelR8fKKFXK+h4TqDV+d+pn+j5axMCdAm+s+jr1SbyLhtyRd8+p0iAqNcLNXv5r0GYPoSzQ4HAG1AFX6ZwkijI7LdUu2a9gxw4Nl42/QwZLJJSyv17nLT00gZdR5U25B1r9WxL2it4pHvpIVUoC9gd8ColH+AeuGTTEt64CHaTyU1KqOkbcJJBRJm8eWCY5N4VAcpsZuggCNXNqblOuifR2sGOCez5wp8mwzsDMxk+WVnsWwEcLMinl8RRw6QFAdsbGVHoXM6FwM1ST+lVuYCbPxF4pJlJsFcTS+sArDBxWUkJ6YJOWyU3w9yEHN8XaziKpikL4ejDK/E57fL6CHuOKF9GCUL7ssfLXOaTgFEl8UGR3ZUULUtwJ84ZrJS0krvppOkftcen5S2EnjTK5NxfSnTZ0L4Bw9ydlZflW+2x6mQdhsAJqsqLkW0rz/PNNVrx5BU1BjrYJdUyHRXlhNKyzD7cL6eUYaceEFJuMLSZkqac0bsLA3xQc7T1OlSArFvU8GXt323Sg+eTMLCFVCr7kv6JUi19xqOg8xXBk5fv4AdDJXaPxxnAY2QQ8LfUvW/e5jJWaQIHq6jW6BC+T3giI+c1ImXEV2DNpUvd+Xs+2CP+ucQ=
-  name: Liga-Hack-${TRAVIS_TAG}
-  file: Liga-Hack-${TRAVIS_TAG}.zip
+  name: HackLigatured-${TRAVIS_TAG}
+  file: HackLigatured-${TRAVIS_TAG}.zip
   skip_cleanup: true
   draft: false
   prerelease: false

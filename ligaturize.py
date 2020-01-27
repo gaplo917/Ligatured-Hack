@@ -11,17 +11,16 @@
 
 import fontforge
 import psMat
-import os
 from os import path
-import sys
 
 from ligatures import ligatures
-from char_dict import char_dict
+from char_mapping import char_dict
 
 # Constants
 COPYRIGHT = '''
 Programming ligatures added by Ilya Skriblovsky from FiraCode
 FiraCode Copyright (c) 2015 by Nikita Prokopov'''
+
 
 def get_ligature_source(fontname):
     # Become case-insensitive
@@ -36,6 +35,7 @@ def get_ligature_source(fontname):
     if 'bold' in fontname or 'heavy' in fontname:
         return 'fonts/fira/distr/otf/FiraCode-Bold.otf'
     return 'fonts/fira/distr/otf/FiraCode-Regular.otf'
+
 
 class LigatureCreator(object):
 
@@ -186,7 +186,7 @@ class LigatureCreator(object):
                        ('latn', ('CAT ', 'ESP ', 'GAL ', 'ISM ', 'KSM ', 'LSM ', 'MOL ', 'NSM ', 'ROM ', 'SKS ', 'SSM ', 'dflt')),
                        ('math', ('dflt',)),
                        ('thai', ('dflt',)))),))
-        #print('CALT %s (%s)' % (calt_lookup_name, firacode_ligature_name))
+        # print('CALT %s (%s)' % (calt_lookup_name, firacode_ligature_name))
         for i, char in enumerate(input_chars):
             self.add_calt(calt_lookup_name, 'calt.{}.{}'.format(self._lig_counter, i),
                 '{prev} | {cur} @<{lookup}> | {next}',
@@ -220,6 +220,7 @@ def replace_sfnt(font, key, value):
         for row in font.sfnt_names
     )
 
+
 def update_font_metadata(font, new_name):
     # Figure out the input font's real name (i.e. without a hyphenated suffix)
     # and hyphenated suffix (if present)
@@ -248,8 +249,9 @@ def update_font_metadata(font, new_name):
     replace_sfnt(font, 'Compatible Full', new_name)
     replace_sfnt(font, 'WWS Family', new_name)
 
+
 def ligaturize_font(input_font_file, output_dir, ligature_font_file,
-                    output_name, prefix, **kwargs):
+                    output_name, suffix, **kwargs):
     font = fontforge.open(input_font_file)
 
     if not ligature_font_file:
@@ -259,8 +261,8 @@ def ligaturize_font(input_font_file, output_dir, ligature_font_file,
         name = output_name
     else:
         name = font.familyname
-    if prefix:
-        name = "%s %s" % (prefix, name)
+    if suffix:
+        name = "%s %s" % (name, suffix)
 
     update_font_metadata(font, name)
 
@@ -301,7 +303,7 @@ def parse_args():
     parser.add_argument("--output-dir",
         help="The directory to save the ligaturized font in. The actual filename"
              " will be automatically generated based on the input font name and"
-             " the --prefix and --output-name flags.")
+             " the --suffix and --output-name flags.")
     parser.add_argument("--ligature-font-file",
         type=str, default='', metavar='PATH',
         help="The file to copy ligatures from. If unspecified, ligaturize will"
@@ -322,16 +324,18 @@ def parse_args():
              " they are at least 10%% wider or narrower. A value of 0 will scale"
              " all copied character glyphs; a value of 2 effectively disables"
              " character glyph scaling.")
-    parser.add_argument("--prefix",
-        type=str, default="Liga",
-        help="String to prefix the name of the generated font with.")
+    parser.add_argument("--suffix",
+        type=str, default="Ligatured",
+        help="String to suffix the name of the generated font with.")
     parser.add_argument("--output-name",
         type=str, default="",
         help="Name of the generated font. Completely replaces the original.")
     return parser.parse_args()
 
+
 def main():
     ligaturize_font(**vars(parse_args()))
+
 
 if __name__ == '__main__':
     main()

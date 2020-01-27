@@ -1,10 +1,10 @@
 from functools import reduce
 from glob import glob
-from char_dict import char_name_dict, char_dict
+from char_mapping import char_name_dict, char_dict
 
 
 def create_fira_ligatures_def(pattern):
-    """ Create ligatures definition by using FIRA Code showcases.txt
+    """ Create ligatures definition by reading a text file contains full list of ligatures
     :param pattern: glob pattern
     :return:
     """
@@ -32,9 +32,11 @@ def create_fira_ligatures_def(pattern):
     defs = list(map(ligature_to_def, xs))
 
     print("Prepared to add these ligatures:", xs)
-    print("Definitions:", defs)
     return defs
 
 
+# 'COPY_CHARACTER_GLYPHS' feature required to prepend the punctuations characters
 ligatures = [{'chars': list(char_dict.keys()), 'firacode_ligature_name': None}] \
             + create_fira_ligatures_def(pattern = 'fonts/fira/showcases/showcases.txt')
+
+print("Definitions:", ligatures)

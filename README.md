@@ -1,5 +1,6 @@
 # Ligatured Hack
 [![Build Status](https://travis-ci.com/gaplo917/Ligatured-Hack.svg?branch=master)](https://travis-ci.com/gaplo917/Ligatured-Hack)
+[![GitHub release](https://img.shields.io/github/v/release/gaplo917/Ligatured-Hack.svg)](https://gitHub.com/gaplo917/Ligatured-Hack/releases/)
 
 I love Hack font and ligatures and can't wait to get latest release. 
 

@@ -4,3 +4,4 @@ images/*
 .git
 !fonts/fira/distr/otf/*
 !fonts/hack/build/ttf/*
+!fonts/fira/showcases/showcases.txt

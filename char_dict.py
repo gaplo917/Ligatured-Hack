@@ -29,3 +29,6 @@ char_dict = {
     'parenright': ')',
     'w': 'w',
 }
+
+# Lookup char name by char
+char_name_dict = {v: k for k, v in char_dict.items()}

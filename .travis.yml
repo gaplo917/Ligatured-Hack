@@ -7,11 +7,15 @@ python:
 before_install:
 - sudo add-apt-repository ppa:fontforge/fontforge -y
 - sudo apt-get update
-- sudo apt-get install -y fontforge zip make
+- sudo apt-get install -y fontforge zip make git
 - sudo mkdir -p ./fonts/output
+- git submodule foreach bash -c 'git fetch --tags; git checkout $(git describe --tags
+  `git rev-list --tags --max-count=1`);'
 script: make
+after_success:
+- sh .travis/commit.sh
 before_deploy:
-- zip -r Liga-Hack-${TRAVIS_TAG}.zip ./fonts/output
+- zip -jr Liga-Hack-${TRAVIS_TAG}.zip ./fonts/output/*.ttf
 deploy:
   provider: releases
   api_key:
@@ -24,3 +28,6 @@ deploy:
   on:
     tags: true
     repo: gaplo917/Ligatured-Hack
+env:
+  global:
+    secure: PTbmFDNozOJ3whQTFcw3BVWze4z+//CCV+iMU1ykKdq+821gcI6fC1rlY/Pw9ndKslb2/zKLaIEneawNjJ89tGdrfwOIJmk6gywVkatU+1CUHpBhyk3GrFUMk2X3HqCX44TSMWLg/ANSeGUbot9QdghMd84nZQStwQy/xuYdcIf9WFmpq/mj/tZzaKVAH3pIvloguK9ZVIDTTC8WDauxSZMziSi0HCk4fYH5ErpdNbZy1ceU99g/soSffEeAUxYgu3idYNXVYkP7vgBJdH4T8a5+N43e+pPt4KYy+MsZpjKLKt+VHJn2/qFvtpLIAZBCvzgwI/FdELUKKL43kfDcVthm0dHAS6W3At8w+LHSeL98nyS8/t903nHyswZkAOIThrT5C7SMCPOJ/ScJWxfMan4VuoK2PoW33OrdHwMsy2f/hlvSawiRXaP8fD5hLiPyIMs+FkkIF5JiNCqQk6Jt7iV+JKOfkZy90oE5X0Qrx+a/BNMya3sbsdHdBp8gNob4MogyE9MobV8IVRa2RLaClzf6krL+3PEdWOy9D7M2BeGyNTZmrBCt8pPXNpvHKrGRTZA35DKg9/Cpp+DSpUBWbR2G6iY1bR2tJ4QWux0ULTW5T9VY7I/tyjib2rUcdCyWjIn1m/T3TVYqzA7qzgvuACXSSJaKyNOsUIyCZRoYaW0=

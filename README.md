@@ -20,7 +20,7 @@ To make this project more maintainable. I decided to
 |:-----:|:-----:|
 |Containerize fontforge and python runtime| ✅ |
 |Travis CI to build release| ✅ |
-|Build Automatically upon FIRA or Hack update hook | WIP |
+|Travis Daily Cron Job build if Fira/Hack has new release| ✅ |
 
 # Download Ligatured Hack Fonts
 Go to [release](https://github.com/gaplo917/Ligatured-Hack/releases)

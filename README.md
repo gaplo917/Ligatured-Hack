@@ -1,26 +1,32 @@
 # Ligatured Hack
 [![Build Status](https://travis-ci.com/gaplo917/Ligatured-Hack.svg?branch=master)](https://travis-ci.com/gaplo917/Ligatured-Hack)
 
-This project is forked from [Ligaturizer@daa4dc8b](https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123) 
-which is [not able to build latest Hack 3.x font](https://github.com/ToxicFrog/Ligaturizer/issues/73) at that moment
+I love Hack font and ligatures and can't wait to get latest release. 
 
-I created a [fix](https://github.com/gaplo917/Ligaturizer/commit/cc5ae602f8b861a640220997092abf06dcea6ea5) and submitted 
-a [pull request](https://github.com/ToxicFrog/Ligaturizer/pull/81). This fix is compatible to build all fonts originally listed on Ligaturizer. 
-However, it is too difficult for me to manually check all the output fonts.
+That's why I build this project with fully automated CI/CD.
 
-To make this project more maintainable. I decided to 
-* focus only on Ligatured Hack Font (My Favourite Font) 
-* containerize dependencies (Reproducible, hopefully OS independent)
-* create automatic CI/CD. (Hassle free update)
-
-> Thus, splitting out is unavoidable.
-
-# Current Status
 |Task|Status|
-|:-----:|:-----:|
-|Containerize fontforge and python runtime| ✅ |
-|Travis CI to build release| ✅ |
-|Travis Daily Cron Job build if Fira/Hack has new release| ✅ |
+|-------|:-------:|
+|Focus only Hack Font|✅|
+|Containerize fontforge and python runtime (Reproducible)|✅|
+|Automactically Build from Travis CI (Hassle-free)|✅|
+|Automactically Build if Hack/Fira has new release (Daily Cron)|✅|
+
+Yes! You could ***star*** this repo and ***watch*** the release channel to get the latest Hack & Fira Ligatured Font updates!
+
+If you also have a favourite font want to ligaturize, you can ***fork*** this repo and make corresponding changes on git submodules & travis ci settings, you will benefit from getting hassle free updates of your favourit font!
+
+# Project History
+This repository is forked from [Ligaturizer@daa4dc8b](https://github.com/ToxicFrog/Ligaturizer/tree/daa4dc8baffeefcb27c4ffd30ea52797ead8d123). 
+
+At that moment, Ligaturizer was [not able to build latest Hack 3.x font](https://github.com/ToxicFrog/Ligaturizer/issues/73). I submitted 
+a [pull request](https://github.com/ToxicFrog/Ligaturizer/pull/81) to fix that issue. 
+
+However,
+* it is too difficult for me to manually check all the output fonts' correctness.
+* Too many fonts that I don't use
+* No container, No automatic CI/CD
+
 
 # Download Ligatured Hack Fonts
 Go to [release](https://github.com/gaplo917/Ligatured-Hack/releases)

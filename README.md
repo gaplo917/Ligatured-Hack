@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/gaplo917/Ligatured-Hack.svg)](https://gitHub.com/gaplo917/Ligatured-Hack/releases/)
 
 <p align="center">
-  <img align="center" height="100" src="images/logo.png"/>
+  <img align="center" height="161" src="images/logo.png"/>
 </p>
 
 I love Hack font and ligatures.
@@ -35,10 +35,10 @@ At that moment, Ligaturizer was [not able to build latest Hack 3.003 font](https
 a [pull request](https://github.com/ToxicFrog/Ligaturizer/pull/81) to fix that issue. 
 
 However,
-* it is too difficult for me to manually check all the output fonts' correctness.
-* Too many fonts that I don't use
-* No container, No automatic CI/CD
-
+* Too many fonts =>
+  * Too difficult for me to manually check all the output fonts' correctness.
+  * Too difficult to generalize automatic release phases
+* No container for development
 
 # Download Ligatured Hack Fonts
 Go to [release](https://github.com/gaplo917/Ligatured-Hack/releases)
@@ -79,6 +79,10 @@ brew install fontforge
 # Run Makefile
 make
 ```
+
+# More Interesting Stuffs?
+If you care about font, you may also care about the color of syntax highlighting. 
+I would recommend you can take a look on my other side project [Productivity-oriented color scheme - GapStyle](https://github.com/gaplo917/GapStyle)
 
 # Credits
 This script was originally written by [IlyaSkriblovsky](https://github.com/IlyaSkriblovsky) 

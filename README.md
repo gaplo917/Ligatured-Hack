@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.com/gaplo917/Ligatured-Hack.svg?branch=master)](https://travis-ci.com/gaplo917/Ligatured-Hack)
 [![GitHub release](https://img.shields.io/github/v/release/gaplo917/Ligatured-Hack.svg)](https://gitHub.com/gaplo917/Ligatured-Hack/releases/)
 
+<p align="center">
+  <img align="center" height="100" src="images/logo.png"/>
+</p>
+
 I love Hack font and ligatures.
 I can't wait to get latest ligatures with Hack font. 
 

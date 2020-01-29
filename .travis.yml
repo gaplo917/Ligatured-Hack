@@ -1,17 +1,16 @@
 git:
   depth: 1
   submodules: true
-language: python
-python:
-- '3.8'
+language: minimal
+services:
+  - docker
 before_install:
-- sudo add-apt-repository ppa:fontforge/fontforge -y
 - sudo apt-get update
-- sudo apt-get install -y fontforge zip make git
-- sudo mkdir -p ./fonts/output
+- sudo apt-get install -y zip git
+- docker build . -t ligatured-hack
 - git submodule foreach bash -c 'git fetch --tags; git checkout $(git describe --tags
   `git rev-list --tags --max-count=1`);'
-script: make
+script: docker run -v $(pwd)/fonts/output:/usr/src/app/fonts/output ligatured-hack
 after_success:
 - sh .travis/commit.sh
 before_deploy:

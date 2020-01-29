@@ -3,7 +3,7 @@ from glob import glob
 from char_mapping import char_name_dict, char_dict
 
 
-def create_fira_ligatures_def(pattern):
+def create_ligatures_def(pattern):
     """ Create ligatures definition by reading a text file contains full list of ligatures
     :param pattern: glob pattern
     :return:
@@ -22,10 +22,10 @@ def create_fira_ligatures_def(pattern):
 
     def ligature_to_def(ligature):
         chars = list(map(lambda c: char_name_dict[c], list(ligature)))
-        firacode_ligature_name = reduce(lambda acc, e: '{}_{}'.format(acc, e), chars) + '.liga'
+        ligature_name = reduce(lambda acc, e: '{}_{}'.format(acc, e), chars) + '.liga'
         return {
             'chars': chars,
-            'firacode_ligature_name': firacode_ligature_name
+            'ligature_name': ligature_name
         }
 
     xs = list(filter(is_valid_ligature, get_ligatures_from_files(files = glob(pattern))))
@@ -36,7 +36,7 @@ def create_fira_ligatures_def(pattern):
 
 
 # 'COPY_CHARACTER_GLYPHS' feature required to prepend the punctuations characters
-ligatures = [{'chars': list(char_dict.keys()), 'firacode_ligature_name': None}] \
-            + create_fira_ligatures_def(pattern = 'fonts/fira/showcases/showcases.txt')
+ligatures = [{'chars': list(char_dict.keys()), 'ligature_name': None}] \
+            + create_ligatures_def(pattern ='fonts/fira/showcases/showcases.txt')
 
 print("Definitions:", ligatures)

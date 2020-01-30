@@ -28,14 +28,16 @@ class LigatureCreator(object):
 
     def __init__(self, font, liga_font,
                  scale_character_glyphs_threshold,
+                 scale_ligature_threshold,
                  copy_character_glyphs):
         self.font = font
         self.liga_font = liga_font
         self.scale_character_glyphs_threshold = scale_character_glyphs_threshold
+        self.scale_ligature_threshold = scale_ligature_threshold
         self.should_copy_character_glyphs = copy_character_glyphs
         self._lig_counter = 0
 
-        # Scale firacode to correct em height.
+        # Scale ligature font to correct em height.
         self.liga_font.em = self.font.em
         self.emwidth = self.font[ord('m')].width
 
@@ -64,8 +66,8 @@ class LigatureCreator(object):
             # No correction needed.
             return
 
-        widthdelta = float(abs(glyph.width - self.emwidth)) / self.emwidth
-        if widthdelta >= self.scale_character_glyphs_threshold:
+        width_delta = float(abs(glyph.width - self.emwidth)) / self.emwidth
+        if width_delta >= self.scale_character_glyphs_threshold:
             # Character is too wide/narrow compared to output font; scale it.
             scale = float(self.emwidth) / glyph.width
             glyph.transform(psMat.scale(scale, 1.0))
@@ -82,7 +84,6 @@ class LigatureCreator(object):
         # in visible misalignment near the end of long lines.
         glyph.width = self.emwidth
 
-
     def copy_character_glyphs(self, chars):
         """Copy individual (non-ligature) characters from the ligature font."""
         if not self.should_copy_character_glyphs:
@@ -96,7 +97,7 @@ class LigatureCreator(object):
             self.font.selection.none()
             self.font.selection.select(char)
             self.font.paste()
-            self.correct_character_width(self.font[char])
+            self.correct_character_width(self.font[ord(char_dict[char])])
 
     def correct_ligature_width(self, glyph):
         """Correct the horizontal advance and scale of a ligature."""
@@ -104,14 +105,17 @@ class LigatureCreator(object):
         if glyph.width == self.emwidth:
             return
 
-        # TODO: some kind of threshold here, similar to the character glyph
-        # scale threshold? The largest ligature uses 0.956 of its hbox, so if
-        # the target font is within 4% of the source font size, we don't need to
-        # resize -- but we may want to adjust the bearings. And we can't just
-        # center it, because ligatures are characterized by very large negative
-        # left bearings -- they advance 1em, but draw from (-(n-1))em to +1em.
-        scale = float(self.emwidth) / glyph.width
-        glyph.transform(psMat.scale(scale, 1.0))
+        width_delta = float(abs(glyph.width - self.emwidth)) / self.emwidth
+        if width_delta >= self.scale_ligature_threshold:
+            scale = float(self.emwidth) / glyph.width
+            glyph.transform(psMat.scale(scale, 1.0))
+            glyph.width = self.emwidth
+        else:
+            scale = float(self.emwidth) / glyph.width
+            glyph.width = self.emwidth
+            glyph.left_side_bearing *= scale
+            glyph.right_side_bearing *= scale
+
         glyph.width = self.emwidth
 
     def add_ligature(self, input_chars, ligature_name):
@@ -137,9 +141,14 @@ class LigatureCreator(object):
         self.font.selection.select('space')
         self.font.copy()
 
-        lookup_name = lambda i: 'lookup.{}.{}'.format(self._lig_counter, i)
-        lookup_sub_name = lambda i: 'lookup.sub.{}.{}'.format(self._lig_counter, i)
-        cr_name = lambda i: 'CR.{}.{}'.format(self._lig_counter, i)
+        def lookup_name(i):
+            return 'lookup.{}.{}'.format(self._lig_counter, i)
+
+        def lookup_sub_name(i):
+            return 'lookup.sub.{}.{}'.format(self._lig_counter, i)
+
+        def cr_name(i):
+            return 'CR.{}.{}'.format(self._lig_counter, i)
 
         for i, char in enumerate(input_chars):
             self.font.addLookup(lookup_name(i), 'gsub_single', (), ())
@@ -174,28 +183,34 @@ class LigatureCreator(object):
                        ('math', ('dflt',)),
                        ('thai', ('dflt',)))),))
         # print('CALT %s (%s)' % (calt_lookup_name, ligature_name))
-        for i, char in enumerate(input_chars):
-            self.add_calt(calt_lookup_name, 'calt.{}.{}'.format(self._lig_counter, i),
+        for j, char in enumerate(input_chars):
+            self.add_calt(
+                calt_lookup_name,
+                'calt.{}.{}'.format(self._lig_counter, j),
                 '{prev} | {cur} @<{lookup}> | {next}',
-                prev = ' '.join(cr_name(j) for j in range(i)),
-                cur = char,
-                lookup = lookup_name(i),
-                next = ' '.join(input_chars[i+1:]))
+                prev=' '.join(cr_name(j) for j in range(j)),
+                cur=char,
+                lookup=lookup_name(j),
+                next=' '.join(input_chars[j+1:]))
 
         # Add ignore rules
-        self.add_calt(calt_lookup_name, 'calt.{}.{}'.format(self._lig_counter, i+1),
+        self.add_calt(
+            calt_lookup_name,
+            'calt.{}.{}'.format(self._lig_counter, i + 1),
             '| {first} | {rest} {last}',
-            first = input_chars[0],
-            rest = ' '.join(input_chars[1:]),
-            last = input_chars[-1])
-        self.add_calt(calt_lookup_name, 'calt.{}.{}'.format(self._lig_counter, i+2),
+            first=input_chars[0],
+            rest=' '.join(input_chars[1:]),
+            last=input_chars[-1])
+        self.add_calt(
+            calt_lookup_name,
+            'calt.{}.{}'.format(self._lig_counter, i + 2),
             '{first} | {first} | {rest}',
-            first = input_chars[0],
-            rest = ' '.join(input_chars[1:]))
+            first=input_chars[0],
+            rest=' '.join(input_chars[1:]))
 
     def add_calt(self, calt_name, subtable_name, spec, **kwargs):
         spec = spec.format(**kwargs)
-        #print('    %s: %s ' % (subtable_name, spec))
+        # print('    %s: %s ' % (subtable_name, spec))
         self.font.addContextualSubtable(calt_name, subtable_name, 'glyph', spec)
 
 
@@ -258,7 +273,10 @@ def ligaturize_font(input_font_file, output_dir, ligature_font_file,
     update_font_metadata(font, name, get_copyright(liga_font.familyname))
 
     creator = LigatureCreator(font, liga_font, **kwargs)
-    ligature_length = lambda lig: len(lig['chars'])
+
+    def ligature_length(lig):
+        return len(lig['chars'])
+
     for lig_spec in sorted(ligatures, key = ligature_length):
         try:
             creator.add_ligature(lig_spec['chars'], lig_spec['ligature_name'])

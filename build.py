@@ -11,15 +11,18 @@ from ligaturize import ligaturize_font
 # For the prefixed_fonts below, what word do we stick in front of the font name?
 LIGATURIZED_FONT_NAME_SUFFIX = 'Ligatured'
 
-# Should we copy some individual punctuations characters like &, ~, and <>,
-# as well as ligatures? The full list is in ligatures.py.
-COPY_CHARACTER_GLYPHS = False
-
 # If copying individual characters, how different in width (relative to the font
 # we're ligaturizing) should they be before we attempt to width-correct them?
 # The default (0.1) means to width-correct if they're +/- 10%. Values >1.0
 # effectively disable this feature.
 SCALE_CHARACTER_GLYPHS_THRESHOLD = 0.1
+
+# If copying individual characters, how different in width (relative to the font
+# we're ligaturizing) should they be before we attempt to width-correct them?
+# The default (0.1) means to width-correct if they're +/- 10%. Values >1.0
+# effectively disable this feature.
+SCALE_LIGATURE_THRESHOLD = 0.044
+
 
 # Fonts that will be ligaturized. ####
 # Don't put fonts licensed under UFL here, and don't put fonts licensed under
@@ -83,12 +86,15 @@ for task in tasks:
                 # grab all upper case letters of the font family
                 ligatured_font_family = ''.join(list(filter(lambda x: x.isupper(), list(liga_font_family))))
 
-                ligaturize_font(
-                    input_font_file=input_file,
-                    ligature_font_file=liga_file,
-                    output_dir='fonts/output/',
-                    output_name=None,
-                    suffix= ligatured_font_family + ' ' + LIGATURIZED_FONT_NAME_SUFFIX,
-                    copy_character_glyphs=COPY_CHARACTER_GLYPHS,
-                    scale_character_glyphs_threshold=SCALE_CHARACTER_GLYPHS_THRESHOLD
-                )
+                for copy_character_glyphs in [True, False]:
+                    copied_character_glyphs_suffix = ' CCG' if copy_character_glyphs else ''
+                    ligaturize_font(
+                        input_font_file=input_file,
+                        ligature_font_file=liga_file,
+                        output_dir='fonts/output/',
+                        output_name=None,
+                        suffix="%s %s%s" % (ligatured_font_family, LIGATURIZED_FONT_NAME_SUFFIX, copied_character_glyphs_suffix),
+                        copy_character_glyphs=copy_character_glyphs,
+                        scale_character_glyphs_threshold=SCALE_CHARACTER_GLYPHS_THRESHOLD,
+                        scale_ligature_threshold=SCALE_LIGATURE_THRESHOLD
+                    )

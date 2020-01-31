@@ -35,8 +35,11 @@ def create_ligatures_def(pattern):
     return defs
 
 
+# 'w' should not be copied to target fonts although there is a ligatures 'www' in FIRA Code
+chars = list(filter(lambda c: c != 'w', char_dict.keys()))
+
 # 'COPY_CHARACTER_GLYPHS' feature required to prepend the punctuations characters
-ligatures = [{'chars': list(char_dict.keys()), 'ligature_name': None}] \
+ligatures = [{'chars': chars, 'ligature_name': None}] \
             + create_ligatures_def(pattern ='fonts/fira/showcases/showcases.txt')
 
 print("Definitions:", ligatures)

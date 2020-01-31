@@ -26,10 +26,15 @@ If you also have a favourite font want to be ligatured,
 you can ***fork*** this repo and make corresponding changes on git submodules & travis ci settings, 
 you will benefit from getting hassle free updates of your favourite font!
 
-# Tag name explained
+# Release name explained
 The current tag format
 ```
 {HACK_FONT_VERSION}+FC{FIRA_CODE_FONT_VERSION}+JBM{JETBRAINS_MONO_FONT_VERSION}+{SCRIPT_PATCH_VERSION}
+
+# Abbreviation used
+FC = FIRA Code
+JBM = JetBrains Mono
+CCG = Enabled Copy Character Glyphs
 ```
 
 # Project History

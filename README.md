@@ -16,7 +16,7 @@ That's why I build this project with fully automated CI/CD.
 |Focus only Hack Font|✅|
 |Support latest [FIRA Code](https://github.com/tonsky/FiraCode) & [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)|✅|
 |Containerize fontforge and python runtime (Reproducible)|✅|
-|Automatically parse [FIRA showcases.txt](https://github.com/tonsky/FiraCode/blob/master/showcases/showcases.txt) to update latest ligatures|✅|
+|Automatically parse [FIRA showcases.txt](https://github.com/tonsky/FiraCode/blob/947ced55552af16f5b01d2ab947e06647dbf064d/showcases/v3/showcases.txt) to update latest ligatures|✅|
 |Automatically Build from Travis CI (Hassle-free)|✅|
 |Automatically Build if Hack/Fira/JetBrainsMono has new release (Daily Cron)|✅|
 

@@ -5,4 +5,4 @@ images/*
 !fonts/fira/distr/otf/*
 !fonts/hack/build/ttf/*
 !fonts/jetbrainsmono/ttf/*
-!fonts/fira/showcases/showcases.txt
+!fonts/fira/showcases/*

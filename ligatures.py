@@ -40,6 +40,6 @@ chars = list(filter(lambda c: c != 'w', char_dict.keys()))
 
 # 'COPY_CHARACTER_GLYPHS' feature required to prepend the punctuations characters
 ligatures = [{'chars': chars, 'ligature_name': None}] \
-            + create_ligatures_def(pattern ='fonts/fira/showcases/showcases.txt')
+            + create_ligatures_def(pattern ='fonts/fira/showcases/**/showcases.txt')
 
 print("Definitions:", ligatures)

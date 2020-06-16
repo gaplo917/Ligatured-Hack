@@ -14,7 +14,7 @@ def create_ligatures_def(pattern):
             with open(file, 'r') as f:
                 for line in f:
                     lines.append(line.strip().split(' '))
-        return reduce(list.__add__, lines)
+        return reduce(list.__add__, lines, [])
 
     def is_valid_ligature(ligature):
         # not empty and all chars exist in the dictionary
@@ -40,6 +40,6 @@ chars = list(filter(lambda c: c != 'w', char_dict.keys()))
 
 # 'COPY_CHARACTER_GLYPHS' feature required to prepend the punctuations characters
 ligatures = [{'chars': chars, 'ligature_name': None}] \
-            + create_ligatures_def(pattern ='fonts/fira/showcases/**/showcases.txt')
+            + create_ligatures_def(pattern ='fonts/fira/extras/showcases.txt')
 
 print("Definitions:", ligatures)

@@ -2,7 +2,7 @@
 fonts/**/*
 images/*
 .git
-!fonts/fira/distr/otf/*
+!fonts/fira/distr/ttf/*
 !fonts/hack/build/ttf/*
 !fonts/jetbrainsmono/ttf/*
-!fonts/fira/showcases/*
+!fonts/fira/extras/*

@@ -19,6 +19,8 @@ from char_mapping import char_dict
 def get_copyright(liga_font_family_name):
     switcher = {
         'fira code': 'Programming ligatures added by gaplo917 from FiraCode. Copyright (c) 2015 by Nikita Prokopov',
+        'fira code semibold': 'Programming ligatures added by gaplo917 from FiraCode. Copyright (c) 2015 by Nikita Prokopov',
+        'fira code bold': 'Programming ligatures added by gaplo917 from FiraCode. Copyright (c) 2015 by Nikita Prokopov',
         'jetbrains mono': 'Programming ligatures added by gaplo917 from JetBrains Mono. Copyright (c) 2020 by JetBrains',
     }
     return switcher.get(liga_font_family_name.lower())

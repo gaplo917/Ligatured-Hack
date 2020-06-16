@@ -6,4 +6,6 @@ COPY . ./
 
 RUN mkdir -p fonts/output
 
+ENV PYTHONFAULTHANDLER=1
+
 ENTRYPOINT ["make"]

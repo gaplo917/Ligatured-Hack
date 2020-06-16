@@ -3,6 +3,7 @@ import os
 import sys
 from glob import glob
 from ligaturize import ligaturize_font
+import fontforge
 
 # Rebuild script for ligaturized fonts.
 # Uses ligaturize.py to do the heavy lifting; this file basically just contains
@@ -23,6 +24,17 @@ SCALE_CHARACTER_GLYPHS_THRESHOLD = 0.1
 # effectively disable this feature.
 SCALE_LIGATURE_THRESHOLD = 0.044
 
+# Generate fira otf from ttf files
+fira_ttf_list = glob('fonts/fira/distr/ttf/*')
+
+if not fira_ttf_list:
+    print("Error: pattern '%s' didn't match any fira fonts." % fira_ttf_list)
+    sys.exit(1)
+
+for fira_ttf in fira_ttf_list:
+    font = fontforge.open(fira_ttf)
+    print(fira_ttf.replace('.ttf', '.otf'))
+    font.generate(fira_ttf.replace('.ttf', '.otf'))
 
 # Fonts that will be ligaturized. ####
 # Don't put fonts licensed under UFL here, and don't put fonts licensed under
@@ -32,28 +44,28 @@ tasks = [
     {
         'input': 'fonts/hack/build/ttf/Hack-Regular.ttf',
         'ligatures': [
-            'fonts/fira/distr/otf/FiraCode-Regular.otf',
+            'fonts/fira/distr/ttf/FiraCode-Regular.otf',
             'fonts/jetbrainsmono/ttf/JetBrainsMono-Regular.ttf'
         ]
     },
     {
         'input': 'fonts/hack/build/ttf/Hack-Bold.ttf',
         'ligatures': [
-            'fonts/fira/distr/otf/FiraCode-Bold.otf',
+            'fonts/fira/distr/ttf/FiraCode-Bold.otf',
             'fonts/jetbrainsmono/ttf/JetBrainsMono-Bold.ttf'
         ]
     },
     {
         'input': 'fonts/hack/build/ttf/Hack-BoldItalic.ttf',
         'ligatures': [
-            'fonts/fira/distr/otf/FiraCode-Bold.otf',
+            'fonts/fira/distr/ttf/FiraCode-Bold.otf',
             'fonts/jetbrainsmono/ttf/JetBrainsMono-Bold-Italic.ttf'
         ]
     },
     {
         'input': 'fonts/hack/build/ttf/Hack-Italic.ttf',
         'ligatures': [
-            'fonts/fira/distr/otf/FiraCode-Regular.otf',
+            'fonts/fira/distr/ttf/FiraCode-Regular.otf',
             'fonts/jetbrainsmono/ttf/JetBrainsMono-Italic.ttf'
         ]
     },

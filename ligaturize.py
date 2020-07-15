@@ -9,11 +9,13 @@
 #
 # See ligatures.py for a list of all the ligatures that will be copied.
 import sys
+from os import path
+
 import fontforge
 import psMat
-from os import path
-from ligatures import ligatures
+
 from char_mapping import char_dict
+from ligatures import ligatures
 
 
 def get_copyright(liga_font_family_name):
@@ -48,8 +50,10 @@ class LigatureCreator(object):
             self.liga_font.selection.none()
             self.liga_font.selection.select(ligature_name)
             self.liga_font.copy()
+            # print("Found %s in source font." % ligature_name)
             return True
         except ValueError:
+            # print("%s not found in source font." % ligature_name)
             return False
 
     def correct_character_width(self, glyph):
@@ -174,16 +178,18 @@ class LigatureCreator(object):
 
         calt_lookup_name = 'calt.{}'.format(self._lig_counter)
         self.font.addLookup(calt_lookup_name, 'gsub_contextchain', (),
-            (('calt', (('DFLT', ('dflt',)),
-                       ('arab', ('dflt',)),
-                       ('armn', ('dflt',)),
-                       ('cyrl', ('SRB ', 'dflt')),
-                       ('geor', ('dflt',)),
-                       ('grek', ('dflt',)),
-                       ('lao ', ('dflt',)),
-                       ('latn', ('CAT ', 'ESP ', 'GAL ', 'ISM ', 'KSM ', 'LSM ', 'MOL ', 'NSM ', 'ROM ', 'SKS ', 'SSM ', 'dflt')),
-                       ('math', ('dflt',)),
-                       ('thai', ('dflt',)))),))
+                            (('calt', (('DFLT', ('dflt',)),
+                                       ('arab', ('dflt',)),
+                                       ('armn', ('dflt',)),
+                                       ('cyrl', ('SRB ', 'dflt')),
+                                       ('geor', ('dflt',)),
+                                       ('grek', ('dflt',)),
+                                       ('lao ', ('dflt',)),
+                                       ('latn', (
+                                       'CAT ', 'ESP ', 'GAL ', 'ISM ', 'KSM ', 'LSM ', 'MOL ', 'NSM ', 'ROM ', 'SKS ',
+                                       'SSM ', 'dflt')),
+                                       ('math', ('dflt',)),
+                                       ('thai', ('dflt',)))),))
         # print('CALT %s (%s)' % (calt_lookup_name, ligature_name))
         for j, char in enumerate(input_chars):
             self.add_calt(
@@ -193,7 +199,7 @@ class LigatureCreator(object):
                 prev=' '.join(cr_name(j) for j in range(j)),
                 cur=char,
                 lookup=lookup_name(j),
-                next=' '.join(input_chars[j+1:]))
+                next=' '.join(input_chars[j + 1:]))
 
         # Add ignore rules
         self.add_calt(
@@ -279,7 +285,7 @@ def ligaturize_font(input_font_file, output_dir, ligature_font_file,
     def ligature_length(lig):
         return len(lig['chars'])
 
-    for lig_spec in sorted(ligatures, key = ligature_length):
+    for lig_spec in sorted(ligatures, key=ligature_length):
         try:
             creator.add_ligature(lig_spec['chars'], lig_spec['ligature_name'])
         except Exception as e:

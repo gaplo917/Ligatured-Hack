@@ -14,6 +14,7 @@ That's why I build this project with fully automated CI/CD.
 |Features|Status|
 |-------|:-------:|
 |Focus only Hack Font|✅|
+|Support [Hack Nerd Font Patches](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Hack)|✅|
 |Support latest [FIRA Code](https://github.com/tonsky/FiraCode) & [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)|✅|
 |Containerize fontforge and python runtime (Reproducible)|✅|
 |Automatically parse [FIRA showcases.txt](https://github.com/tonsky/FiraCode/blob/947ced55552af16f5b01d2ab947e06647dbf064d/showcases/v3/showcases.txt) to update latest ligatures|✅|
@@ -29,9 +30,10 @@ you will benefit from getting hassle free updates of your favourite font!
 # Release name explained
 The current tag format
 ```
-{HACK_FONT_VERSION}+FC{FIRA_CODE_FONT_VERSION}+JBM{JETBRAINS_MONO_FONT_VERSION}+{SCRIPT_PATCH_VERSION}
+{HACK_FONT_VERSION}+N{NERD_FONT_VERSION}+FC{FIRA_CODE_FONT_VERSION}+JBM{JETBRAINS_MONO_FONT_VERSION}+{SCRIPT_PATCH_VERSION}
 
 # Abbreviation used
+N = Nerd Font
 FC = FIRA Code
 JBM = JetBrains Mono
 CCG = Enabled Copy Character Glyphs
@@ -81,7 +83,7 @@ docker run -v $(pwd)/fonts/output:/usr/src/app/fonts/output ligatured-hack
 
 Done! All the fonts will be built to `$(pwd)/fonts/output`
 
-### Manual Build via MacOS
+### Manual Build via MacOS (Not Recommended)
 ```
 # Install fontforge dependencies
 brew install fontforge

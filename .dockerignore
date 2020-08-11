@@ -6,3 +6,4 @@ images/*
 !fonts/hack/build/ttf/*
 !fonts/jetbrainsmono/ttf/*
 !fonts/fira/extras/*
+!fonts/nerd-fonts/*

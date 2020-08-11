@@ -2,14 +2,19 @@ git:
   depth: 1
   submodules: true
 language: minimal
+branches:
+  only:
+    - master
 services:
   - docker
 before_install:
 - sudo apt-get update
-- sudo apt-get install -y zip git
-- docker build . -t ligatured-hack
+- sudo apt-get install -y zip git jq
+# Get latest Nerd Font
+- sh .travis/get-nerd-font.sh
 # ignore update Fira code submodule due to https://github.com/gaplo917/Ligatured-Hack/issues/3
 - git submodule foreach '[ "$path" = "fonts/fira" ] || (git fetch --tags; git checkout $(git describe --tags `git rev-list --tags --max-count=1`));'
+- docker build . -t ligatured-hack
 script: docker run -v $(pwd)/fonts/output:/usr/src/app/fonts/output ligatured-hack
 after_success:
 - sh .travis/commit.sh

@@ -4,6 +4,6 @@ images/*
 .git
 !fonts/fira/distr/ttf/*
 !fonts/hack/build/ttf/*
-!fonts/jetbrainsmono/ttf/*
+!fonts/jetbrainsmono/fonts/ttf/*
 !fonts/fira/extras/*
 !fonts/nerd-fonts/*

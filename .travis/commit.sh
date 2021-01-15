@@ -23,6 +23,5 @@ else
   # Add new "origin" with access token in the git URL for authentication
   git remote add origin https://gaplo917:${GITHUB_TOKEN}@github.com/gaplo917/Ligatured-Hack.git > /dev/null 2>&1
 
-  git push origin HEAD:master --quiet;
-  git push origin "$GIT_TAG" --quiet
+  git push --atomic origin HEAD:master "$GIT_TAG";
 fi
